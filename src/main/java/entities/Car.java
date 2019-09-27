@@ -43,9 +43,6 @@ public class Car extends Entity {
     /**
      * Check for Keyboard and Mouse inputs and process them
      *
-     * <p>If chat is enabled, block all commands since we want to type text
-     *
-     * <p>Simple movement without acceleration or anything. We can improve on this if there is time.
      */
     private void checkInputs() {
 

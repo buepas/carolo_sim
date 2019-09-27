@@ -154,7 +154,7 @@ public class Loader {
       texture = TextureLoader.getTexture("/assets/textures/" + fileName + ".png");
       glGenerateMipmap(GL_TEXTURE_2D);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-//      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -.3f); // Textures appear blurred the
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -1.5f); // Textures appear blurred the
       // further away they are
       // GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11
       // .GL_LINEAR); //Experimental Filters
