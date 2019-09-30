@@ -18,9 +18,7 @@ public class BirdsEye extends Camera {
      */
     public BirdsEye(Car car) {
         super(car);
-        System.out.println(pitch);
         resetCam();
-        System.out.println(pitch);
     }
 
     protected void correctCameraPos() {
@@ -130,10 +128,9 @@ public class BirdsEye extends Camera {
     protected void resetCam() {
         pitch = 90;
         yaw = 0;
-        System.out.println(pitch);
 
         offsetZ = 0;
-        offsetY = 600;
+        offsetY = 400;
         offsetX = 0;
     }
 }

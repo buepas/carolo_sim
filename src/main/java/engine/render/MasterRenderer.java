@@ -82,7 +82,7 @@ public class MasterRenderer {
    * FOV, render distance (Far-/NearPlane) or screen resolution change
    */
   private static void createProjectionMatrix() {
-    float aspectRatio = (float) Sim.window.getWidth() / (float) Sim.window.getHeight();
+    float aspectRatio = (float) Sim.renderWindow.getWidth() / (float) Sim.renderWindow.getHeight();
     float scaleY = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
     float scaleX = scaleY / aspectRatio;
     final float frustumLength = FAR_PLANE - NEAR_PLANE;

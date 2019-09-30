@@ -40,8 +40,8 @@ public class Playing {
       firstloop = false;
     }
 
-    double x = 2 * (InputHandler.getMouseX() / Sim.window.getWidth()) - 1;
-    double y = 1 - 2 * (InputHandler.getMouseY() / Sim.window.getHeight());
+    double x = 2 * (InputHandler.getMouseX() / Sim.renderWindow.getWidth()) - 1;
+    double y = 1 - 2 * (InputHandler.getMouseY() / Sim.renderWindow.getHeight());
 
 //    List<GuiTexture> guis = new ArrayList<>();
 
@@ -49,7 +49,7 @@ public class Playing {
     // ESC = Game Menu
     if (InputHandler.isKeyPressed(GLFW_KEY_ESCAPE)) {
 //      Sim.addActiveStage(Sim.Stage.GAMEMENU);
-      Sim.window.stop();
+      Sim.renderWindow.stop();
     }
 
 

@@ -1,5 +1,6 @@
 package entities;
 
+import collision.CornerBox;
 import engine.models.TexturedModel;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -21,7 +22,7 @@ public class Entity {
 
   private boolean destroyed;
 
-//  private BoundingBox bbox;
+  protected CornerBox cornerBox;
 
   /**
    * Default constructor if no texture atlas is used.
@@ -69,61 +70,135 @@ public class Entity {
     this.rotZ = rotZ;
     this.scale = new Vector3f(scale, scale, scale);
 
-    // Set bounding box which is stored in the raw model
-//    if (model != null && model.getRawModel().getBoundingCoords().length == 6) {
-//      float[] boundingCoords = model.getRawModel().getBoundingCoords();
-//      bbox = new BoundingBox(boundingCoords);
-//      bbox.scale(getScale());
-//      updateBoundingBox();
-//    }
+
+     // Set bounding box which is stored in the raw model
+    if (model != null && model.getRawModel().getBoundingCoords().length == 6) {
+      float[] boundingCoords = model.getRawModel().getBoundingCoords();
+      cornerBox = new CornerBox(boundingCoords, position, rotY, this.scale);
+    }
   }
 
-  /**
-   * Testconstructor for Unit Tests with limited functionalities.
-   * @param position A test position
-   * @param rotX A test RotationX
-   * @param rotY A test RotationY
-   * @param rotZ A test RotationZ
-   */
 
-  public Entity(Vector3f position, float rotX, float rotY, float rotZ) {}
-
-  // Entity entities.collision
 
   /**
    * Call this after you reposition the entity. If you use proper setters, you probably never have
-   * to call it manually. (Still leaving it public, just in case)
+   * to call it manually.
    */
-//  private void updateBoundingBox() {
-//    if (bbox == null) {
-//      return;
-//    }
-//    bbox.moveTo(getPosition());
-//  }
+  private void moveCornerBox() {
+    if (cornerBox == null) {
+      return;
+    }
+    cornerBox.moveBox(new Vector2f(getPosition().x, getPosition().z));
+  }
+
 
   /**
-   * Check if this entity collides with another entity in X, XY or XYZ dimension.
+   * Move this entity in world space. Updates Corner Box.
    *
-   * @param entity The entity to check for entities.collision with
-   * @param dim number of dimensions 1=x, 2=xy, 3=xyz
-   * @return true if the two entities' Bounding Boxes overlap in dim
+   * @param velocity velocity to move
    */
-//  public boolean collidesWith(Entity entity, int dim) {
-//    if (bbox == null || entity.getBbox() == null) {
-//      return false;
-//    }
-//    return bbox.collidesWith(entity.getBbox(), dim);
-//  }
+  public void increasePosition(Vector3f velocity) {
+    position.add(velocity);
+    moveCornerBox();
+  }
+
+
 
   /**
-   * Check if this entity collides with another entity in the XY dimension.
+   * Move this entity to a new point X,Y,Z in the world. Updates Corner Box.
    *
-   * @param entity The entity to check for entities.collision with
-   * @return true if the two entities' Bounding Boxes overlap in XY
+   * @param position x,y,z world coordinates
    */
-//  public boolean collidesWith(Entity entity) {
-//    return collidesWith(entity, 2);
+  public void setPosition(Vector3f position) {
+    this.position = position;
+    moveCornerBox();
+  }
+
+  public float getRotX() {
+    return rotX;
+  }
+
+  /**
+   * Rotate this entity around the X axis.
+   *
+   * @param rotX Degrees to rotate
+   */
+  public void setRotX(float rotX) {
+    this.rotX = rotX % 360;
+  }
+
+  public float getRotY() {
+    return rotY;
+  }
+
+  /**
+   * Set new rotation around the Y axis. Updates CornerBox.
+   *
+   * @param rotY Degrees to rotate
+   */
+  public void setRotY(float rotY) {
+      this.rotY = rotY % 360;
+      if(cornerBox != null) {
+        cornerBox.rotateBox(this.rotY);
+      }
+  }
+
+  public float getRotZ() {
+    return rotZ;
+  }
+
+  /**
+   * Rotate this entity around the Z axis.
+   *
+   * @param rotZ Degrees to rotate
+   */
+  public void setRotZ(float rotZ) {
+    this.rotZ = rotZ  % 360;
+  }
+
+  public Vector3f getScale() {
+    return scale;
+  }
+
+//  /**
+//   * Scale this unit up (scale greater than 1) or down (scale less than 1) by a scaling factor.
+//   *
+//   * @param scale Scaling factor
+//   */
+//  public void setScale(Vector3f scale) {
+////    cornerBox.scaleBox(this.scale.negate());
+//    this.scale = scale;
+////    cornerBox.scaleBox(scale);
+//    // Scale needs a rework to be used
 //  }
+
+  public boolean isDestroyed() {
+    return destroyed;
+  }
+
+  public void setDestroyed(boolean destroyed) {
+    this.destroyed = destroyed;
+  }
+
+  public CornerBox getCornerBox() {
+    return cornerBox;
+  }
+
+  public TexturedModel getModel() {
+    return model;
+  }
+
+  public void setModel(TexturedModel model) {
+    this.model = model;
+  }
+
+  public Vector3f getPosition() {
+    return position;
+  }
+
+  public void setTextureIndex(int textureIndex) {
+    this.textureIndex = textureIndex;
+  }
 
   /**
    * Returns col in the texture atlas.
@@ -145,173 +220,5 @@ public class Entity {
     return (float) row / (float) model.getTexture().getNumberOfRows();
   }
 
-  /**
-   * Move this entity in world space. Updates Bounding Box.
-   *
-   * @param dx move this entity by dx units in the positive x direction
-   * @param dy move this entity by dy units in the positive y direction
-   * @param dz move this entity by dz units in the positive z direction
-   */
-  public void increasePosition(float dx, float dy, float dz) {
-    increasePosition(new Vector3f(dx, dy, dz));
-  }
 
-  /**
-   * Move this entity in world space. Updates Bounding Box.
-   *
-   * @param velocity velocity to move
-   */
-  public void increasePosition(Vector3f velocity) {
-    position.add(velocity);
-//    updateBoundingBox();
-  }
-
-  /**
-   * Rotate this entity in world space. Updates Bounding Box.
-   *
-   * @param dx Rotate this entity by dx degrees (not radians) along the X axis
-   * @param dy Rotate this entity by dy degrees (not radians) along the Y axis
-   * @param dz Rotate this entity by dz degrees (not radians) along the Z axis
-   */
-  public void increaseRotation(float dx, float dy, float dz) {
-    this.rotX += dx;
-    this.rotY += dy;
-    this.rotZ += dz;
-//    updateBoundingBox();
-  }
-
-  /**
-   * Rotate this entity in world space. Updates Bounding Box.
-   *
-   * @param spin Rotate this entity along all 3 axes
-   */
-  public void increaseRotation(Vector3f spin) {
-    increaseRotation(spin.x, spin.y, spin.z);
-  }
-
-  public TexturedModel getModel() {
-    return model;
-  }
-
-  public void setModel(TexturedModel model) {
-    this.model = model;
-  }
-
-  public Vector3f getPosition() {
-    return position;
-  }
-
-  /**
-   * Move this entity to a new point X,Y,Z in the world. Updates Bounding Box.
-   *
-   * @param position x,y,z world coordinates
-   */
-  public void setPosition(Vector3f position) {
-    this.position = position;
-//    updateBoundingBox();
-  }
-
-  public Vector2f getPositionXy() {
-    return new Vector2f(position.x, position.y);
-  }
-
-  public float getRotX() {
-    return rotX;
-  }
-
-  /**
-   * Rotate this entity around the X axis. Updates Bounding Box.
-   *
-   * @param rotX Degrees to rotate
-   */
-  public void setRotX(float rotX) {
-    this.rotX = rotX;
-//    updateBoundingBox();
-  }
-
-  public float getRotY() {
-    return rotY;
-  }
-
-  /**
-   * Rotate this entity around the Y axis. Updates Bounding Box.
-   *
-   * @param rotY Degrees to rotate
-   */
-  public void setRotY(float rotY) {
-    this.rotY = rotY;
-//    updateBoundingBox();
-  }
-
-  public float getRotZ() {
-    return rotZ;
-  }
-
-  /**
-   * Rotate this entity around the Z axis. Updates Bounding Box.
-   *
-   * @param rotZ Degrees to rotate
-   */
-  public void setRotZ(float rotZ) {
-    this.rotZ = rotZ;
-//    updateBoundingBox();
-  }
-
-  public Vector3f getScale() {
-    return scale;
-  }
-
-  /**
-   * Scale this unit up (scale greater than 1) or down (scale less than 1) by a scaling factor.
-   * Updates Bounding Boxes.
-   *
-   * @param scale Scaling factor
-   */
-  public void setScale(Vector3f scale) {
-    this.scale = scale;
-    // TODO: Update bounding box scale
-  }
-
-//  public BoundingBox getBbox() {
-//    return bbox;
-//  }
-
-  /**
-   * Move this entity to a new point X coordinate in the world. Updates Bounding Box.
-   *
-   * @param x world coordinate
-   */
-  public void setPositionX(float x) {
-    setPosition(new Vector3f(x, getPosition().y, getPosition().z));
-  }
-
-  /**
-   * Move this entity to a new point Y coordinate in the world. Updates Bounding Box.
-   *
-   * @param y world coordinate
-   */
-  public void setPositionY(float y) {
-    setPosition(new Vector3f(getPosition().x, y, getPosition().z));
-  }
-
-  /**
-   * Move this entity to a new point Z coordinate in the world. Updates Bounding Box.
-   *
-   * @param z world coordinate
-   */
-  public void setPositionZ(float z) {
-    setPosition(new Vector3f(getPosition().x, getPosition().y, z));
-  }
-
-  public boolean isDestroyed() {
-    return destroyed;
-  }
-
-  public void setDestroyed(boolean destroyed) {
-    this.destroyed = destroyed;
-  }
-
-  public void setTextureIndex(int textureIndex) {
-    this.textureIndex = textureIndex;
-  }
 }

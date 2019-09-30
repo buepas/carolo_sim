@@ -38,7 +38,7 @@ public class InputHandler {
   private static final int[] mouseState = new int[GLFW_MOUSE_BUTTON_LAST];
   private static final boolean[] mouseDown = new boolean[GLFW_MOUSE_BUTTON_LAST];
   private static final Vector3f mouseRay = new Vector3f();
-  private static final long window = Sim.window.getWindow();
+  private static final long window = Sim.renderWindow.getWindow();
   /*
    * Callbacks get triggered when an event happens that GLFW picks up.
    * Callbacks then pass a number of arguments to an invoke method that is run every time the
@@ -133,8 +133,8 @@ public class InputHandler {
   private static void updateRaycasting(Camera camera) {
     // ViewPort is used by JOML and stores x,y,width,height of the window
     int[] viewport = new int[4];
-    viewport[2] = Sim.window.getWidth();
-    viewport[3] = Sim.window.getHeight();
+    viewport[2] = Sim.renderWindow.getWidth();
+    viewport[3] = Sim.renderWindow.getHeight();
 
     // We manually get mouse position here (via the glfw buffer) since when moving the player,
     // the mouse position changes without triggering the cursor callback function. It looks weird
@@ -144,7 +144,7 @@ public class InputHandler {
     MasterRenderer.getProjectionMatrix()
         .unprojectRay(
             (float) getMouseX(),
-            (float) (Sim.window.getHeight() - getMouseY()),
+            (float) (Sim.renderWindow.getHeight() - getMouseY()),
             viewport,
             new Vector3f(),
             mouseRay);
@@ -338,7 +338,7 @@ public class InputHandler {
    */
   public static double getMouseX() {
     DoubleBuffer buffer = BufferUtils.createDoubleBuffer(1);
-    glfwGetCursorPos(Sim.window.getWindow(), buffer, null);
+    glfwGetCursorPos(Sim.renderWindow.getWindow(), buffer, null);
     return buffer.get(0);
   }
 
@@ -353,7 +353,7 @@ public class InputHandler {
    */
   public static double getMouseY() {
     DoubleBuffer buffer = BufferUtils.createDoubleBuffer(1);
-    glfwGetCursorPos(Sim.window.getWindow(), null, buffer);
+    glfwGetCursorPos(Sim.renderWindow.getWindow(), null, buffer);
     return buffer.get(0);
   }
 

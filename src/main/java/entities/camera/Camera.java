@@ -66,7 +66,6 @@ public abstract class Camera {
         } else if(InputHandler.isKeyPressed(GLFW_KEY_Q)) {
             Sim.switchCamera();
         }
-
     }
 
     /**

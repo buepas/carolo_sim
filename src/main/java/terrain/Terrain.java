@@ -10,7 +10,7 @@ import sim.Sim;
 /** Flat Terrain with blend map. */
 public class Terrain {
 
-    static final float SIZE = 1600;
+    static final float SIZE = 800;
     private static final int VERTEX_COUNT = 1600;
     RawModel model;
     private float coordX;
@@ -120,5 +120,9 @@ public class Terrain {
 
     public void setRotation(Vector3f rotation) {
         this.rotation = rotation;
+    }
+
+    public static float getSize() {
+        return SIZE;
     }
 }

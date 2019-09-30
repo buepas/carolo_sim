@@ -22,8 +22,8 @@ import static util.IoUtil.ioResourceToByteBuffer;
  *
  * <p>Controls
  */
-public class Window {
-  public static final Logger logger = LoggerFactory.getLogger(Window.class);
+public class RenderWindow {
+  public static final Logger logger = LoggerFactory.getLogger(RenderWindow.class);
 
   private final double fpsCap;
   private final double timePerFrame;
@@ -48,7 +48,7 @@ public class Window {
    * @param fps maximum fps (cap)
    * @param title title of the window
    */
-  public Window(int width, int height, int fps, String title) {
+  public RenderWindow(int width, int height, int fps, String title) {
     setSize(width, height);
     this.title = title;
     fpsCap = fps;

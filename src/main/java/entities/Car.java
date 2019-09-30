@@ -1,5 +1,6 @@
 package entities;
 
+import collision.PenaltyCalculator;
 import engine.io.InputHandler;
 import engine.models.RawModel;
 import engine.models.TexturedModel;
@@ -13,15 +14,17 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Car extends Entity {
 
     private static TexturedModel carModel;
-    private Vector3f direction = new Vector3f(1,0, 0);
-    private static float scale = 5;
+    private Vector3f direction = new Vector3f(0,0, -1);
+    private final static float scale = 0.04f;
     private float speed;
-    private float topSpeed = scale * 1.5f;
-    private float rotAngleDeg = 40; // max rotation per second in degrees
-    private float rotAngleRad = (float) Math.toRadians(rotAngleDeg);
+    private final float topSpeed = scale * 100;
+    private final float rotAngleDeg = 45; // max rotation per second in degrees
+    private final float rotAngleRad = (float) Math.toRadians(rotAngleDeg);
+    private PenaltyCalculator penaltyCalculator;
 
     public Car(Vector3f position, float rotX, float rotY, float rotZ) {
         super(carModel, new Vector3f(position.x, scale, position.z), rotX, rotY, rotZ, scale);
+        penaltyCalculator = new PenaltyCalculator(this, Sim.getMapLoader());
     }
 
     public static void init() {
@@ -29,15 +32,14 @@ public class Car extends Entity {
     }
 
     private static void loadCarModel() {
-        RawModel rawPlayer = Sim.loader.loadToVao(ObjFileLoader.loadObj("block"));
+        RawModel rawPlayer = Sim.loader.loadToVao(ObjFileLoader.loadObj("car"));
         carModel = new TexturedModel(rawPlayer, new ModelTexture(Sim.loader.loadTexture("red")));
     }
 
     public void update() {
         checkInputs();
-        Vector3f velocity = new Vector3f();
-        direction.mul(speed, velocity);
-        increasePosition(velocity);
+        increasePosition(new Vector3f(direction).mul(speed));
+        penaltyCalculator.updatePenalty(Sim.getInfoWindow());
     }
 
     /**
@@ -52,19 +54,21 @@ public class Car extends Entity {
 
         if (InputHandler.isKeyDown(GLFW_KEY_W)) {
             if (speed < topSpeed) {
-                speed += .3 * scale * Sim.dt();
+                speed += 40 * scale * Sim.dt();
                 if (speed > topSpeed) {
                     speed = topSpeed;
                 }
+                Sim.getInfoWindow().updateSpeed(speed);
             }
         }
 
         if (InputHandler.isKeyDown(GLFW_KEY_S)) {
             if (speed > 0) {
-                speed -= .6 * scale * Sim.dt();
+                speed -= 80 * scale * Sim.dt();
                 if (speed < 0) {
                     speed = 0;
                 }
+                Sim.getInfoWindow().updateSpeed(speed);
             }
         }
 
@@ -76,14 +80,20 @@ public class Car extends Entity {
             float rotRad = (float) (rotAngleRad * Sim.dt());
             float rotDeg = (float) (rotAngleDeg * Sim.dt());
             direction.rotateY(rotRad, direction);
-            increaseRotation(0, rotDeg,0);
+            setRotY(getRotY() + rotDeg);
+            Sim.getInfoWindow().updateRotation(getRotY());
         }
 
         if (InputHandler.isKeyDown(GLFW_KEY_D)) {
             float rotRad = -(float) (rotAngleRad * Sim.dt());
             float rotDeg = -(float) (rotAngleDeg * Sim.dt());
             direction.rotateY(rotRad, direction);
-            increaseRotation(0, rotDeg,0);
+            setRotY(getRotY() + rotDeg);
+            Sim.getInfoWindow().updateRotation(getRotY());
         }
+    }
+
+    public PenaltyCalculator getPenaltyCalculator() {
+        return penaltyCalculator;
     }
 }

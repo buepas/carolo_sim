@@ -1,14 +1,13 @@
 package sim;
 
+import collision.BoxMaster;
+import engine.io.InfoWindow;
 import engine.io.InputHandler;
-import engine.io.Window;
-import engine.models.RawModel;
-import engine.models.TexturedModel;
+import engine.io.Screenshot;
+import engine.io.RenderWindow;
 import engine.render.Loader;
 import engine.render.MasterRenderer;
 import engine.render.fontrendering.TextMaster;
-import engine.render.objconverter.ObjFileLoader;
-import engine.textures.ModelTexture;
 import entities.camera.BirdsEye;
 import entities.camera.Camera;
 import entities.Car;
@@ -17,9 +16,11 @@ import entities.camera.FirstPerson;
 import entities.light.LightMaster;
 import org.joml.Vector3f;
 import sim.stages.Playing;
+import terrain.MapLoader;
 import terrain.Terrain;
 import terrain.TerrainMaster;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -27,22 +28,28 @@ import static sim.Sim.Stage.PLAYING;
 
 public class Sim extends Thread {
 
-    public static Window window = new Window(1080, 600, 30, "Carolo Sim");
+    public static RenderWindow renderWindow = new RenderWindow(1080, 600, 30, "Carolo Sim");
+    private static InfoWindow infoWindow;
     public static Loader loader = new Loader();
     private MasterRenderer renderer;
 
     public static BirdsEye birdsEye;
     public static FirstPerson firstPerson;
     public static Camera camera;
+    private static boolean recording;
 
-    private static List<Stage> activeStages = new CopyOnWriteArrayList<>();
+    private static ArrayList<Stage> activeStages = new ArrayList<>();
     private static double dt;
 
     private static final List<Entity> entities = new CopyOnWriteArrayList<>();
 
     private static Car car;
+    private static BoxMaster boxMaster;
 
     private static Terrain terrain;
+    private static MapLoader mapLoader;
+
+    private static String mapName;
 
 
 
@@ -53,21 +60,30 @@ public class Sim extends Thread {
     public void run() {
         this.setName("Game Loop"); // Set thread name
 
+        mapName = "road6";
+
         // Create GLFW Window
-        window.create();
+        renderWindow.create();
 
         // Initiate the master renderer class
         renderer = new MasterRenderer();
 
+        // Load and Generate Terrain
+        mapLoader = new MapLoader(mapName);
+        TerrainMaster.init();
+        terrain = TerrainMaster.generateTerrain(mapName);
+
         // Init entities
         Car.init();
+
+        // Initialize Info Window
+        infoWindow = new InfoWindow();
+        infoWindow.createWindow();
 
         // Load basic lights
         LightMaster.reset();
 
-//        Fps fpsCounter = new Fps();
-
-        car = new Car(new Vector3f(20,0.5f,800), 0, 0, 0);
+        car = new Car(new Vector3f(70,1,400), 0, 0, 0);
 //        Entity block = new Entity (
 //                new TexturedModel(
 //                        Sim.loader.loadToVao(ObjFileLoader.loadObj("block")),
@@ -79,17 +95,14 @@ public class Sim extends Thread {
 //        entities.add(block);
 
         // Init Stuff
-        TerrainMaster.init();
+
         TextMaster.init();
         birdsEye = new BirdsEye(car);
-        System.out.println(birdsEye.getPitch());
         firstPerson = new FirstPerson(car);
-        System.out.println(birdsEye.getPitch());
         camera = birdsEye;
 
-        System.out.println(getActiveCamera().getPitch());
-
-        terrain = TerrainMaster.generateTerrain("road3");
+        // Collision
+        boxMaster = new BoxMaster(mapName);
 
         activeStages.add(PLAYING);
 
@@ -100,11 +113,11 @@ public class Sim extends Thread {
     */
 
         // Variables for Time Invariance and Frame Rate control
-        double timePerFrame = 1000 / 60.0;
+        double timePerFrame = 1000 / 30.0;
         double secondTimer = 0;
         int frames = 0;
         double frameStartTime;
-        while (!window.isClosed()) {
+        while (!renderWindow.isClosed()) {
 
             // Note when we start the frame to calculate the duration later
             frameStartTime = System.nanoTime();
@@ -114,7 +127,7 @@ public class Sim extends Thread {
             if (secondTimer > 1e9) {
 //                oncePerSecond = true;
                 secondTimer -= 1e9;
-//                fpsCounter.updateString("" + frames); // Display Frame counter
+                infoWindow.updateFPS(frames);
                 frames = 0;
             }
 
@@ -125,9 +138,11 @@ public class Sim extends Thread {
             /*InputHandler needs to be BEFORE polling (window.update()) so we still have access to
             the events of last Frame. Everything else should be after polling.*/
             InputHandler.update();
-            window.update();
+            renderWindow.update();
 
-            // Toggle mute sound
+            if(recording) {
+                new Screenshot();
+            }
 
             if (activeStages.contains(PLAYING)) {
                 Playing.update(renderer);
@@ -136,7 +151,7 @@ public class Sim extends Thread {
 
             // Done with one frame
 
-            window.swapBuffers();
+            renderWindow.swapBuffers();
 //            oncePerSecond = false;
 
             // Calculate how long the current frame took to process
@@ -169,7 +184,7 @@ public class Sim extends Thread {
         cleanUp();
 
         // Close and disconnect (still need a window close callback)
-        window.kill();
+        renderWindow.kill();
 
     }
 
@@ -183,6 +198,10 @@ public class Sim extends Thread {
 
     public static List<Entity> getEntities() {
         return entities;
+    }
+
+    public static InfoWindow getInfoWindow() {
+        return infoWindow;
     }
 
     public static Camera getActiveCamera() {
@@ -205,11 +224,19 @@ public class Sim extends Thread {
         }
     }
 
+    public static void setRecording(boolean recording) {
+        Sim.recording = recording;
+    }
+
+    public static boolean isRecording() {
+        return recording;
+    }
+
     public static Car getCar() {
         return car;
     }
 
-    public static List<Stage> getActiveStages() {
+    public static ArrayList<Stage> getActiveStages() {
         return activeStages;
     }
 
@@ -219,6 +246,14 @@ public class Sim extends Thread {
 
     public static Terrain getTerrain() {
         return terrain;
+    }
+
+    public static BoxMaster getBoxMaster() {
+        return boxMaster;
+    }
+
+    public static MapLoader getMapLoader() {
+        return mapLoader;
     }
 
     // Valid Stages

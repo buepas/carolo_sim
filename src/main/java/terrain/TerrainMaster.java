@@ -16,7 +16,7 @@ public class TerrainMaster {
         TerrainTexture black = new TerrainTexture(Sim.loader.loadTexture("black"));
         TerrainTexture yellow = new TerrainTexture(Sim.loader.loadTexture("yellow"));
 
-        texturePack = new TerrainTexturePack(black, yellow, red, white);
+        texturePack = new TerrainTexturePack(black, black, red, white);
     }
 
     public static Terrain generateTerrain(String blendMapFile) {

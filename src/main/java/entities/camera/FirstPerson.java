@@ -1,9 +1,12 @@
 package entities.camera;
 
+import collision.CornerBox;
 import entities.Car;
+import org.joml.Vector2f;
 
 public class FirstPerson extends Camera {
 
+    private float offsetFront = 2;
 
     /**
      * Create a new Camera.
@@ -16,25 +19,31 @@ public class FirstPerson extends Camera {
     }
 
     protected void correctCameraPos() {
-        position.z = car.getPosition().z + offsetZ;
-        position.x = car.getPosition().x + offsetX;
+        Vector2f carPos2D = new Vector2f(car.getPosition().x, car.getPosition().z);
+        Vector2f camPos2D = new Vector2f(car.getPosition().x, car.getPosition().z - offsetFront);
+
+        float s = (float) Math.sin(Math.toRadians(-car.getRotY()));
+        float c = (float) Math.cos(Math.toRadians(-car.getRotY()));
+
+        Vector2f newPos = CornerBox.rotatePoint(s, c, camPos2D, carPos2D);
+
+        position.x = newPos.x;
+        position.z = newPos.y;
         position.y = car.getPosition().y + offsetY;
-        yaw = -car.getRotY()+90;
+        yaw = -car.getRotY();
     }
 
     @Override
     public void update() {
         super.update();
-        correctCameraPos(); // Follow player for example
+        correctCameraPos();
     }
 
     @Override
     protected void resetCam() {
-        pitch = 19f;
+        pitch = 20f;
         yaw = 0;
-
-        offsetZ = 0;
-        offsetY = car.getScale().y * 1.8f;
-        offsetX = 0;
+        offsetY = car.getScale().y * 160f;
+        correctCameraPos();
     }
 }

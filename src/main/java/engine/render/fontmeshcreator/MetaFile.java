@@ -43,7 +43,7 @@ class MetaFile {
    * @param file - the font file.
    */
   MetaFile(BufferedReader file) {
-    this.aspectRatio = (double) Sim.window.getWidth() / (double) Sim.window.getHeight();
+    this.aspectRatio = (double) Sim.renderWindow.getWidth() / (double) Sim.renderWindow.getHeight();
     openFile(file);
     loadPaddingData();
     loadLineSizes();
