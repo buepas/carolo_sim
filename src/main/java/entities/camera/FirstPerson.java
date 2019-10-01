@@ -6,20 +6,19 @@ import org.joml.Vector2f;
 
 public class FirstPerson extends Camera {
 
-    private float offsetFront = 2;
-
     /**
-     * Create a new Camera.
+     * Create a new Camera that follows the car in first person mode.
+     * This should be modeled like the camera that sits on the car.
      *
      * @param car car to track
      */
     public FirstPerson(Car car) {
         super(car);
-        resetCam();
     }
 
-    protected void correctCameraPos() {
+    private void correctCameraPos() {
         Vector2f carPos2D = new Vector2f(car.getPosition().x, car.getPosition().z);
+        float offsetFront = 2; // offset from the center of the car towards the front of the car
         Vector2f camPos2D = new Vector2f(car.getPosition().x, car.getPosition().z - offsetFront);
 
         float s = (float) Math.sin(Math.toRadians(-car.getRotY()));

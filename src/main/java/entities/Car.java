@@ -17,7 +17,7 @@ public class Car extends Entity {
     private Vector3f direction = new Vector3f(0,0, -1);
     private final static float scale = 0.04f;
     private float speed;
-    private final float topSpeed = scale * 100;
+    private final float topSpeed = scale * 120;
     private final float rotAngleDeg = 45; // max rotation per second in degrees
     private final float rotAngleRad = (float) Math.toRadians(rotAngleDeg);
     private PenaltyCalculator penaltyCalculator;

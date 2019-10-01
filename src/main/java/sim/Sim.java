@@ -6,12 +6,12 @@ import engine.io.RenderWindow;
 import engine.io.Screenshot;
 import engine.render.Loader;
 import engine.render.MasterRenderer;
-import engine.render.fontrendering.TextMaster;
 import entities.Car;
 import entities.Entity;
 import entities.camera.BirdsEye;
 import entities.camera.Camera;
 import entities.camera.FirstPerson;
+import entities.camera.Follow;
 import entities.light.LightMaster;
 import org.joml.Vector3f;
 import sim.stages.Playing;
@@ -42,6 +42,7 @@ public class Sim extends Thread {
     // Camera variables
     private static BirdsEye birdsEye;
     private static FirstPerson firstPerson;
+    private static Follow follow;
     public static Camera camera;
     private static boolean recording;
 
@@ -91,6 +92,7 @@ public class Sim extends Thread {
         // Initialize and create cameras
         birdsEye = new BirdsEye(car);
         firstPerson = new FirstPerson(car);
+        follow = new Follow(car);
         camera = birdsEye;
 
         // Start in PLAYING state
@@ -180,7 +182,7 @@ public class Sim extends Thread {
 
     private void cleanUp() {
         // Clean up memory and unbind openGL shader programs
-        TextMaster.cleanUp();
+//        TextMaster.cleanUp();
 //        guiRenderer.cleanUp();
         renderer.cleanUp();
         loader.cleanUp();
@@ -198,16 +200,32 @@ public class Sim extends Thread {
         return camera;
     }
 
+    /**
+     * Switch to a specific camera.
+     *
+     * 1 = Bird's Eye (Top Down) fixed camera.
+     * 2 = Follow, thrid person flexible camera: Use mouse 1 to pan, mouse 2 to yaw (rotate) and the mousewheel to zoom.
+     * 3 = first person (car's view) fixed camera. Use this to record training data.
+     *
+     * @param number 1=birdsEye, 2=follow, 3=firstPerson
+     */
     public static void switchCamera(int number) {
         if(number == 1) {
             camera = birdsEye;
         } else if(number == 2) {
+            camera = follow;
+        } else if(number == 3) {
             camera = firstPerson;
         }
     }
 
+    /**
+     * Zap through the different cameras with one button.
+     */
     public static void switchCamera() {
         if(camera instanceof BirdsEye) {
+            camera = follow;
+        } else if (camera instanceof Follow) {
             camera = firstPerson;
         } else {
             camera = birdsEye;
@@ -247,6 +265,5 @@ public class Sim extends Thread {
     public enum Stage {
         PLAYING
     }
-
 
 }

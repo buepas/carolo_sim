@@ -15,14 +15,16 @@ This gives us three 8-bit channels to encode information.
  
 Example: If you draw a purple pixel it will be rendered white according to the blue value and it will count as a penalty zone according to the red value.
 
-## Starting the simulation
+## Running the simulation
 
-1. Specify the map you want to use in `src/main/java/sim/Sim.java` 
-2. Run `src/main/java/main.java`
+1. Put the map you want to run in `src/main/resources/assets/textures/<mapName>.png`
+2. Specify the `<mapName>` you want to use in `src/main/java/sim/Sim.java` 
+3. Run `src/main/java/main.java`
 
 There are a few more options like car start position that can be configured in `Sim.java`.
-Currently the car can be controlled with WASD, in the future there will be an InputStream to control it. 
-Switch the cameras with `Q` or `1` and `2`.
+Currently the car can be controlled with WASD. In the future there will be an InputStream to control it. 
+
+Switch the cameras with `Q` or `1`,  `2` and `3`: Bird's Eye (Top Down), Follow (3rd Person), Perspective (1st Person).
 
 ## Saving the output to one image per frame
 To train or validate a model you can enable or disable saving the screen output via the "start/stop recording" button in the info window.
