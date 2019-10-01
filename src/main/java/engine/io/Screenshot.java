@@ -16,17 +16,31 @@ import java.util.Date;
 
 public class Screenshot implements Runnable {
 
+    private String path;
+
     private ByteBuffer buffer;
     private int width;
     private int height;
     private int bpp = 4; // Assuming a 32-bit display with a byte each for red, green, blue, and alpha.
 
-    public Screenshot() {
+    /**
+     * Capture the current renderWindow screen and save it to the specified path on the disk.
+     */
+    public Screenshot(String path) {
+        this.path = path;
+
         // Read buffer in main thread since we have no openGL capabilities in other threads
         buffer = readBuffer();
-
         // Switch to a new thread to create and save image
         new Thread(this).start();
+    }
+
+
+    /**
+     * Capture the current renderWindow screen and save it to "src/main/resources/output/".
+     */
+    public Screenshot() {
+        this("src/main/resources/output/");
     }
 
     private ByteBuffer readBuffer() {
@@ -42,8 +56,8 @@ public class Screenshot implements Runnable {
     @Override
     public void run() {
 
+        // Convert ByteBuffer to BufferedImage
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 int i = (x + (width * y)) * bpp;
@@ -54,12 +68,14 @@ public class Screenshot implements Runnable {
             }
         }
 
+        // Filename based on current date to miliseconds
         DateFormat df = new SimpleDateFormat("MM-dd_HH-mm-ss.SSS");
         Date now = Calendar.getInstance().getTime();
         String fileName = df.format(now);
 
+        // Save the file to the disk
         try {
-            ImageIO.write(image, "PNG", new File("src/main/resources/output/" + fileName + ".png"));
+            ImageIO.write(image, "PNG", new File( path + fileName + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

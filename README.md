@@ -3,7 +3,7 @@
 ## Creating a map to drive on
 
 The map is loaded from a square RGB png image. Both dimensions of the map have to be powers of 2.
-I suggest 4096x4069 to have sufficient resolution. 
+I suggest 4096x4096 to have sufficient resolution. 
 
 This gives us three 8-bit channels to encode information.
 
@@ -22,6 +22,7 @@ Example: If you draw a purple pixel it will be rendered white according to the b
 
 There are a few more options like car start position that can be configured in `Sim.java`.
 Currently the car can be controlled with WASD, in the future there will be an InputStream to control it. 
+Switch the cameras with `Q` or `1` and `2`.
 
 ## Saving the output to one image per frame
 To train or validate a model you can enable or disable saving the screen output via the "start/stop recording" button in the info window.

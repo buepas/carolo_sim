@@ -9,6 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+/**
+ * Windows to display infos, stats and controls for/about the running simulation.
+ *
+ */
 public class InfoWindow {
 
     private JFrame frame;
@@ -26,9 +30,10 @@ public class InfoWindow {
     private JLabel penaltyLabel;
 
     public void createWindow() {
+
+        // Set up frame and panel
         frame = new JFrame("Info / Stats");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         JPanel panel = new JPanel();
         panel.setLayout( new GridLayout( 7 , 1, 0, 0 ) );  // 2 rows 1 column
 
@@ -49,7 +54,7 @@ public class InfoWindow {
         panel.add(speedLabel);
 
         // Speed Label
-        rotLabel = new JLabel("0.00 degrees of direction",SwingConstants.LEFT);
+        rotLabel = new JLabel("0.00° direction angle",SwingConstants.LEFT);
         rotLabel.setBorder(new EmptyBorder(0,10,0,10));
         panel.add(rotLabel);
 
@@ -89,6 +94,8 @@ public class InfoWindow {
         });
         panel.add(stopButtton);
 
+
+        // Pack and display frame
         frame.add(panel);
         frame.setLocationRelativeTo(null);
         frame.pack();
@@ -97,23 +104,43 @@ public class InfoWindow {
 
     }
 
+    /**
+     * Update the fps display in the Info Window.
+     *
+     * @param newFps new FPS to display
+     */
     public void updateFPS(int newFps) {
         fps = Integer.toString(newFps);
         fpsLabel.setText(fps + " frames / s");
     }
 
+    /**
+     * Update the speed display in the Info Window.
+     *
+     * @param newSpeed new speed to display
+     */
     public void updateSpeed(float newSpeed) {
         speed = String.format("%.2f", newSpeed);
         speedLabel.setText(speed + " units / s");
     }
 
+    /**
+     * Update the rotation display in the Info Window.
+     *
+     * @param newRotation new angle to display
+     */
     public void updateRotation(float newRotation) {
         rotation = String.format("%.2f", newRotation);
-        rotLabel.setText(rotation + " degrees of direction");
+        rotLabel.setText(rotation + "° direction angle");
     }
 
-    public void updatePenalty(float newPenalty) {
-        penalty = String.format("%.2f", newPenalty);
+    /**
+     * Update the penalty display in the Info Window.
+     *
+     * @param newPenalty new penalty to display
+     */
+    public void updatePenalty(int newPenalty) {
+        penalty = Integer.toString(newPenalty);
         penaltyLabel.setText(penalty + " penalty points");
     }
 

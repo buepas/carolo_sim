@@ -3,6 +3,10 @@ package collision;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+/**
+ * A 2D (X-Z) box that moves and rotates with an object.
+ * Has 4 corner points and a center that can be queried at any time to do collision calculations.
+ */
 public class CornerBox {
 
     private float[] offsets;
@@ -20,6 +24,8 @@ public class CornerBox {
             return;
         }
 
+        // Offsets from the BoundingBox are read directly from the obj data while parsing
+        // Scaling happens here and only once. Rescaling an object is not implemented
         bb[0] *= scale.x;
         bb[1] *= scale.x;
         bb[2] *= scale.y;
@@ -34,9 +40,12 @@ public class CornerBox {
         center.y = centerPos.z;
 
         rotateBox(rotation);
-//        scaleBox(scale);
     }
 
+    /**
+     * Assuming the center, set the coordinates for all the corners using the offsets.
+     * After this, a rotation is necessary if the object has any Y-spin.
+     */
     private void setCorners() {
         frontLeft.x = center.x + offsets[0];
         frontLeft.y = center.y + offsets[4];
@@ -51,6 +60,11 @@ public class CornerBox {
         backRight.y = center.y + offsets[5];
     }
 
+    /**
+     * Move the box to the new position of the entity. Does not change rotation.
+     *
+     * @param newCenter position to move to in world coordinates
+     */
     public void moveBox(Vector2f newCenter) {
         Vector2f translation = newCenter.sub(center);
 
@@ -61,6 +75,11 @@ public class CornerBox {
         backRight.add(translation);
     }
 
+    /**
+     * First resets the box to zero rotation and then applies the provided rotation.
+     *
+     * @param totalDegrees degrees of rotation to set the box at
+     */
     public void rotateBox(float totalDegrees) {
         setCorners();
 
@@ -74,6 +93,16 @@ public class CornerBox {
 
     }
 
+    /**
+     * Take a point and rotate it around another point.
+     * Pre-calculate the sine and cosine to be more efficient when rotating multiple points around the same angle.
+     *
+     * @param s sine of angle (in radians) to rotate around
+     * @param c cosine of angle (in radians) to rotate around
+     * @param p point to rotate (new position will be returned)
+     * @param center point to rotate around
+     * @return The rotated point p
+     */
     public static Vector2f rotatePoint(float s, float c, Vector2f p, Vector2f center) {
         p = new Vector2f(p).sub(center); // translate to center as origin
 
@@ -84,21 +113,6 @@ public class CornerBox {
 
         return newP.add(center); // translate back to origin
     }
-
-//    public void scaleBox(Vector3f scale) {
-//        Vector2f scale2D = new Vector2f(scale.x, scale.z); // scale is XYZ -> we need XZ
-//        System.out.println(scale2D);
-//        frontLeft = scalePoint(new Vector2f(frontLeft), scale2D);
-//        frontRight = scalePoint(new Vector2f(frontRight), scale2D);
-//        backLeft = scalePoint(new Vector2f(backLeft), scale2D);
-//        backRight = scalePoint(new Vector2f(backRight), scale2D);
-//    }
-//
-//    private Vector2f scalePoint(Vector2f point, Vector2f scale) {
-//        point.x = (point.x - center.x) * scale.x + center.x;
-//        point.y = (point.y - center.y) * scale.y + center.y;
-//        return point;
-//    }
 
     public Vector2f getFrontLeft() {
         return frontLeft;
@@ -120,6 +134,13 @@ public class CornerBox {
         return center;
     }
 
+    /**
+     *
+     * Returns all points tracked by the corner box.
+     * 4 Corners and center.
+     *
+     * @return An array with all 4 corner points as well as the center.
+     */
     public Vector2f[] getAllPoints() {
         return new Vector2f[]{
                 frontLeft,
@@ -138,6 +159,4 @@ public class CornerBox {
                 " BR " + backRight.x + " / " + backRight.y +
                 " C " + center.x + " / " + center.y;
     }
-
-
 }

@@ -1,17 +1,16 @@
 package sim;
 
-import collision.BoxMaster;
 import engine.io.InfoWindow;
 import engine.io.InputHandler;
-import engine.io.Screenshot;
 import engine.io.RenderWindow;
+import engine.io.Screenshot;
 import engine.render.Loader;
 import engine.render.MasterRenderer;
 import engine.render.fontrendering.TextMaster;
-import entities.camera.BirdsEye;
-import entities.camera.Camera;
 import entities.Car;
 import entities.Entity;
+import entities.camera.BirdsEye;
+import entities.camera.Camera;
 import entities.camera.FirstPerson;
 import entities.light.LightMaster;
 import org.joml.Vector3f;
@@ -28,28 +27,35 @@ import static sim.Sim.Stage.PLAYING;
 
 public class Sim extends Thread {
 
-    public static RenderWindow renderWindow = new RenderWindow(1080, 600, 30, "Carolo Sim");
+    // Settings
+    private final static String mapName = "road7"; // name of the map to use
+
+    // Window variables
+    public static RenderWindow renderWindow = new RenderWindow(1080, 600, "Carolo Sim");
     private static InfoWindow infoWindow;
+
+    // Render variables
     public static Loader loader = new Loader();
     private MasterRenderer renderer;
+    private final float fps = 30f;
 
-    public static BirdsEye birdsEye;
-    public static FirstPerson firstPerson;
+    // Camera variables
+    private static BirdsEye birdsEye;
+    private static FirstPerson firstPerson;
     public static Camera camera;
     private static boolean recording;
 
+    // Game loop variables
     private static ArrayList<Stage> activeStages = new ArrayList<>();
     private static double dt;
 
+    // Entity variables
     private static final List<Entity> entities = new CopyOnWriteArrayList<>();
-
     private static Car car;
-    private static BoxMaster boxMaster;
 
+    // Terrain variables
     private static Terrain terrain;
     private static MapLoader mapLoader;
-
-    private static String mapName;
 
 
 
@@ -60,12 +66,10 @@ public class Sim extends Thread {
     public void run() {
         this.setName("Game Loop"); // Set thread name
 
-        mapName = "road6";
-
-        // Create GLFW Window
+        // Create GLFW Window. This will create openGL capabilities on the main thread.
         renderWindow.create();
 
-        // Initiate the master renderer class
+        // Initialize the master renderer
         renderer = new MasterRenderer();
 
         // Load and Generate Terrain
@@ -73,8 +77,9 @@ public class Sim extends Thread {
         TerrainMaster.init();
         terrain = TerrainMaster.generateTerrain(mapName);
 
-        // Init entities
+        // Initialize and create entities
         Car.init();
+        car = new Car(new Vector3f(70,1,400), 0, 0, 0);
 
         // Initialize Info Window
         infoWindow = new InfoWindow();
@@ -83,27 +88,12 @@ public class Sim extends Thread {
         // Load basic lights
         LightMaster.reset();
 
-        car = new Car(new Vector3f(70,1,400), 0, 0, 0);
-//        Entity block = new Entity (
-//                new TexturedModel(
-//                        Sim.loader.loadToVao(ObjFileLoader.loadObj("block")),
-//                        new ModelTexture(Sim.loader.loadTexture("black"))
-//                ),
-//                new Vector3f(10,0.5f,10), 0,0,0, 0.1f
-//        );
-//
-//        entities.add(block);
-
-        // Init Stuff
-
-        TextMaster.init();
+        // Initialize and create cameras
         birdsEye = new BirdsEye(car);
         firstPerson = new FirstPerson(car);
         camera = birdsEye;
 
-        // Collision
-        boxMaster = new BoxMaster(mapName);
-
+        // Start in PLAYING state
         activeStages.add(PLAYING);
 
     /*
@@ -113,7 +103,7 @@ public class Sim extends Thread {
     */
 
         // Variables for Time Invariance and Frame Rate control
-        double timePerFrame = 1000 / 30.0;
+        double timePerFrame = 1000 / fps;
         double secondTimer = 0;
         int frames = 0;
         double frameStartTime;
@@ -140,17 +130,17 @@ public class Sim extends Thread {
             InputHandler.update();
             renderWindow.update();
 
+            // Handle recording of images
             if(recording) {
                 new Screenshot();
             }
 
+            // Game loop action depending on current stage
             if (activeStages.contains(PLAYING)) {
                 Playing.update(renderer);
             }
 
-
             // Done with one frame
-
             renderWindow.swapBuffers();
 //            oncePerSecond = false;
 
@@ -248,9 +238,6 @@ public class Sim extends Thread {
         return terrain;
     }
 
-    public static BoxMaster getBoxMaster() {
-        return boxMaster;
-    }
 
     public static MapLoader getMapLoader() {
         return mapLoader;

@@ -65,25 +65,6 @@ public class Maths {
   }
 
   /**
-   * Used to get the height in a triangle Only used to generate terrain with a height map. To find
-   * the exact height of a point inside a vertex.
-   * https://en.wikipedia.org/wiki/Barycentric_coordinate_system
-   *
-   * @param p1 point 1
-   * @param p2 point 2
-   * @param p3 point 3
-   * @param pos XZ coordinates inside triangle
-   * @return height (Y) in a specified triangle
-   */
-  public static float barryCentric(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f pos) {
-    float det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
-    float l1 = ((p2.z - p3.z) * (pos.x - p3.x) + (p3.x - p2.x) * (pos.y - p3.z)) / det;
-    float l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
-    float l3 = 1.0f - l1 - l2;
-    return l1 * p1.y + l2 * p2.y + l3 * p3.y;
-  }
-
-  /**
    * Convert a 3D world coordinates to a 2D projection in screen coordinates.
    *
    * <p>Used to render GUI or Text in relation to 3D objects.

@@ -68,4 +68,7 @@ public class PenaltyCalculator {
         }
     }
 
+    public int getCurrentPenalty() {
+        return currentPenalty;
+    }
 }

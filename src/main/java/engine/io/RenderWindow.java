@@ -25,19 +25,10 @@ import static util.IoUtil.ioResourceToByteBuffer;
 public class RenderWindow {
   public static final Logger logger = LoggerFactory.getLogger(RenderWindow.class);
 
-  private final double fpsCap;
-  private final double timePerFrame;
   private final String title;
   private int width;
   private int height;
-  private double time;
-  private double processedTime;
   private long window;
-  private double delta;
-  private int frames;
-  private double frameTime;
-  private int currentFps;
-  private boolean isOneSecond; // is true for one frame per second
   private boolean fullscreen;
 
   /**
@@ -45,19 +36,11 @@ public class RenderWindow {
    *
    * @param width x axis screen resolution
    * @param height y axis screen resolution
-   * @param fps maximum fps (cap)
    * @param title title of the window
    */
-  public RenderWindow(int width, int height, int fps, String title) {
+  public RenderWindow(int width, int height, String title) {
     setSize(width, height);
     this.title = title;
-    fpsCap = fps;
-    timePerFrame = 1 / fpsCap;
-    processedTime = 0;
-    frames = 0;
-    frameTime = 0;
-    currentFps = 0;
-    isOneSecond = false;
     setFullscreen(false);
   }
 
@@ -110,8 +93,6 @@ public class RenderWindow {
     }
 
 //    setIcon("logo32");
-
-    time = getTime();
   }
 
   /**
@@ -208,32 +189,6 @@ public class RenderWindow {
     return window;
   }
 
-  public int getCurrentFps() {
-    return currentFps;
-  }
-
-  /**
-   * Returns true for exactly one frame every second.
-   *
-   * @return true for exactly one frame every second
-   */
-  public boolean isOneSecond() {
-    return isOneSecond;
-  }
-
-  /**
-   * Returns the time the time delta between this and last frame in seconds. Is used to sync
-   * frame-time tasks with real-time tasks.
-   *
-   * @return the time the time delta between this and last frame in seconds
-   */
-  public double getFrameTimeSeconds() {
-    return delta;
-  }
-
-  public void setDelta(double delta) {
-    this.delta = delta;
-  }
 
   public void setSize(int width, int height) {
     this.width = width;

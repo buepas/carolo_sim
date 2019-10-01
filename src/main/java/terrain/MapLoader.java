@@ -82,13 +82,12 @@ public class MapLoader {
         if (hasAlphaChannel) {
             offset++;
         }
-        int pos;
+        int pos = (mapCoords.y * pixelLength * width) + (mapCoords.x * pixelLength) + offset;
         try {
-            pos = (mapCoords.y * pixelLength * width) + (mapCoords.x * pixelLength) + offset;
+            return (int) pixels[pos] & 0xff;
         } catch (ArrayIndexOutOfBoundsException e) {
-            pos = 255;
+            return 255;
         }
-        return (int) pixels[pos] & 0xff;
     }
 
 //    //corner coordinates of the pixel in world coords
