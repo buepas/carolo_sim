@@ -64,6 +64,10 @@ public abstract class Camera {
         }
     }
 
+    public abstract void mount();
+
+    public abstract void unmount();
+
     protected abstract void resetCam();
 
     public Vector3f getPosition() {

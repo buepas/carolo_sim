@@ -37,6 +37,7 @@ public class Playing {
 
     // Render other stuff, order is important
     renderer.render(LightMaster.getLightsToRender(), Sim.getActiveCamera());
+    Sim.getGuiMaster().render();
   }
 
 }

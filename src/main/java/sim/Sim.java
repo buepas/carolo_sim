@@ -13,6 +13,7 @@ import entities.camera.Camera;
 import entities.camera.FirstPerson;
 import entities.camera.Follow;
 import entities.light.LightMaster;
+import gui.GuiMaster;
 import org.joml.Vector3f;
 import sim.stages.Playing;
 import terrain.MapLoader;
@@ -58,7 +59,8 @@ public class Sim extends Thread {
     private static Terrain terrain;
     private static MapLoader mapLoader;
 
-
+    // GUI Variables
+    private static GuiMaster guiMaster;
 
     /**
      * Here we initialize all the Masters and other classes and generate the world.
@@ -94,6 +96,9 @@ public class Sim extends Thread {
         firstPerson = new FirstPerson(car);
         follow = new Follow(car);
         camera = birdsEye;
+
+        // Initialize the rest
+        guiMaster = new GuiMaster();
 
         // Start in PLAYING state
         activeStages.add(PLAYING);
@@ -210,6 +215,7 @@ public class Sim extends Thread {
      * @param number 1=birdsEye, 2=follow, 3=firstPerson
      */
     public static void switchCamera(int number) {
+        camera.unmount();
         if(number == 1) {
             camera = birdsEye;
         } else if(number == 2) {
@@ -217,6 +223,7 @@ public class Sim extends Thread {
         } else if(number == 3) {
             camera = firstPerson;
         }
+        camera.mount();
     }
 
     /**
@@ -224,11 +231,11 @@ public class Sim extends Thread {
      */
     public static void switchCamera() {
         if(camera instanceof BirdsEye) {
-            camera = follow;
+            switchCamera(2);
         } else if (camera instanceof Follow) {
-            camera = firstPerson;
+            switchCamera(3);
         } else {
-            camera = birdsEye;
+            switchCamera(1);
         }
     }
 
@@ -256,9 +263,12 @@ public class Sim extends Thread {
         return terrain;
     }
 
-
     public static MapLoader getMapLoader() {
         return mapLoader;
+    }
+
+    public static GuiMaster getGuiMaster() {
+        return guiMaster;
     }
 
     // Valid Stages

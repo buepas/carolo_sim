@@ -32,6 +32,16 @@ public class Follow extends Camera {
         yaw = 180 - car.getRotY() + angleAroundCar;
     }
 
+    @Override
+    public void mount() {
+
+    }
+
+    @Override
+    public void unmount() {
+
+    }
+
     private void calculateCameraPosition(float horizDistance) {
         float theta = -car.getRotY() + angleAroundCar;
         offsetX = (float) (horizDistance * Math.sin(Math.toRadians(theta)));

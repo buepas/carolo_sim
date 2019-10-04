@@ -22,6 +22,16 @@ public class BirdsEye extends Camera {
     }
 
     @Override
+    public void mount() {
+
+    }
+
+    @Override
+    public void unmount() {
+
+    }
+
+    @Override
     protected void resetCam() {
         pitch = 90;
         yaw = 0;
