@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 
+import static org.lwjgl.glfw.GLFW.glfwFocusWindow;
+
 /**
  * Windows to display infos, stats and controls for/about the running simulation.
  *
@@ -70,6 +72,10 @@ public class InfoWindow {
         recordingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
+                // Immediately switch to the render window so you can drive
+                glfwFocusWindow(Sim.renderWindow.getWindow());
+
+                // Start/Stop the recording
                 if (Sim.isRecording()) {
                     Sim.setRecording(false);
                     recordingButton.setText("Start Recording");

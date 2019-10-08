@@ -77,4 +77,8 @@ public class FirstPerson extends Camera {
         offsetY = car.getScale().y * 160f;
         correctCameraPos();
     }
+
+    public Viewport getViewport() {
+        return viewport;
+    }
 }

@@ -1,6 +1,8 @@
 package gui;
 
+import engine.io.Screenshot;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 import sim.Sim;
 
 import javax.swing.text.View;
@@ -48,6 +50,7 @@ public class Viewport {
         bars.add(bottom);
         bars.add(left);
         bars.add(right);
+        clear();
     }
 
 
@@ -78,6 +81,8 @@ public class Viewport {
 
     public void clear() {
         alpha = 0;
+        topLeft = new Vector2f();
+        bottomRight = new Vector2f(Sim.renderWindow.getWidth(), Sim.renderWindow.getHeight());
         updateBars();
     }
 
@@ -96,9 +101,15 @@ public class Viewport {
 
         right.setAlpha(alpha);
         right.setPosition(new Vector2f(2 - (w - bottomRight.x) * 2 / w, 0));
+
+        // Update screenshot area
+        Screenshot.setTopLeft(new Vector2i((int) topLeft.x, (int) topLeft.y));
+        Screenshot.setWidth((int) (bottomRight.x - topLeft.x));
+        Screenshot.setHeight((int) (bottomRight.y - topLeft.y));
     }
 
     public ArrayList<GuiTexture> getBarList() {
             return bars;
     }
+
 }
