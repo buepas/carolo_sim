@@ -8,7 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Create and manage lights. Only ever create lights using this class */
+/** Create and manage lights. Only ever create lights using this class.
+ *
+ * @author M.Nadler
+ */
 public class LightMaster {
 
   /*The Maximum amount of lights that will be passed to the shader.

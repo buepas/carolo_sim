@@ -26,6 +26,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import static sim.Sim.Stage.PLAYING;
 
+/**
+ * Master Class to control the simulation.
+ * Contains the game loop, a lot of settings and ties together all the components.
+ *
+ * @author M.Nadler
+ */
 public class Sim extends Thread {
 
     // Settings

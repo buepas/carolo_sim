@@ -10,7 +10,10 @@ import util.Maths;
 
 import java.util.List;
 
-/** Shader program for entities. Just passing some variables to the shader */
+/** Shader program for entities. Just passing some variables to the shader.
+ *
+ * @author M.Nadler
+ * */
 @SuppressWarnings("Duplicates")
 public class StaticShader extends ShaderProgram {
 

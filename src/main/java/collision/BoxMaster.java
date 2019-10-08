@@ -10,6 +10,7 @@ import terrain.MapLoader;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class BoxMaster {
 
     private MapLoader mapLoader;

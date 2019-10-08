@@ -7,7 +7,10 @@ import engine.textures.TerrainTexturePack;
 import org.joml.Vector3f;
 import sim.Sim;
 
-/** Flat Terrain with blend map. */
+/** Flat Terrain with blend map.
+ *
+ * @author M.Nadler
+ * */
 public class Terrain {
 
     static final float SIZE = 800;

@@ -17,6 +17,8 @@ import java.util.List;
  * Renders HUD and GUI elements. They are simple quads rendered directly onto the screen coordinates
  * No transformations are necessary except translation and scale by the gui position and scale A
  * simple 2D to 2D mapping
+ *
+ * @author M.Nadler
  */
 public class GuiRenderer {
 

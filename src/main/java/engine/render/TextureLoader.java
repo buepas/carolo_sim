@@ -19,6 +19,8 @@ import static util.IoUtil.ioResourceToByteBuffer;
 /**
  * Loads texture files from the file system using low level buffer manipulation Creates a texture in
  * openGL and saves the texture ID. We can then load the texture with this ID.
+ *
+ * @author M.Nadler
  */
 public class TextureLoader implements Texture {
 
@@ -31,7 +33,7 @@ public class TextureLoader implements Texture {
 
   /**
    * Don't call this directly. Will load an image into a Buffer and save width, height and alpha
-   * composition
+   * composition.
    *
    * @param imagePath fill image path
    */

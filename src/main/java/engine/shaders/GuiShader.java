@@ -2,7 +2,10 @@ package engine.shaders;
 
 import org.joml.Matrix4f;
 
-/** Shader program for gui. Just passing some variables to the shader */
+/** Shader program for gui. Just passing some variables to the shader.
+ *
+ * @author M.Nadler
+ * */
 public class GuiShader extends ShaderProgram {
 
   private static final String SHADER_NAME = "gui";

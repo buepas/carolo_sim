@@ -6,9 +6,11 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 /**
- * All 3D entities are derived or spawned from this class. Defines position, bounding box, rotation
+ * All 3D entities are derived or spawned from this class. Defines position, rotation
  * and scale of an object as well as the model, texture (with index if applicable) and if it is
  * destroyed.
+ *
+ * @author M.Nadler
  */
 public class Entity {
 

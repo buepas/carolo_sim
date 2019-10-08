@@ -2,6 +2,12 @@ package entities.camera;
 
 import entities.Car;
 
+/**
+ * Top down view camera. Follows the car at a great distance, keeping the angle 90°.
+ * No additional settings and controls.
+ *
+ * @author M.Nadler
+ */
 public class BirdsEye extends Camera {
 
     /**

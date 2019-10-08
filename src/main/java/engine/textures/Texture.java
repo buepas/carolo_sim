@@ -2,6 +2,8 @@ package engine.textures;
 
 /**
  * The description of a texture. Used by the Texture loader.
+ *
+ * @author M.Nadler
  */
 public interface Texture {
 

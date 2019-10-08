@@ -4,6 +4,11 @@ import engine.render.GuiRenderer;
 
 import java.util.ArrayList;
 
+/**
+ * Will manage and render the GUI elements on the screen.
+ *
+ * @author M.Nadler
+ */
 public class GuiMaster {
     private ArrayList<GuiTexture> guis = new ArrayList<>();
     private GuiRenderer guiRenderer;

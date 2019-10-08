@@ -6,6 +6,8 @@ package engine.models;
  * <p>- Vertex Count - ID of Vertex Array Object (VAO): The location of the model data in the
  * memory. Each vao has a buffer for each type of model data like vertex position, normals, indices,
  * etc - boundingCoords to generate the Bounding Box later
+ *
+ * @author M.Nadler
  */
 public class RawModel {
 

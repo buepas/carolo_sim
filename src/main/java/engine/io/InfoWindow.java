@@ -12,8 +12,9 @@ import java.awt.event.WindowEvent;
 import static org.lwjgl.glfw.GLFW.glfwFocusWindow;
 
 /**
- * Windows to display infos, stats and controls for/about the running simulation.
+ * Window to display infos, stats and controls for/about the running simulation.
  *
+ * @author M.Nadler
  */
 public class InfoWindow {
 

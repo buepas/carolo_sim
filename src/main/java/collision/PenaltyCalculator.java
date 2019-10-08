@@ -5,6 +5,12 @@ import entities.Car;
 import org.joml.Vector2f;
 import terrain.MapLoader;
 
+/**
+ * Keep track of the penalty for a specific car and map.
+ * Run {@link #updatePenalty(InfoWindow)} each frame, or how ever often you need it updated.
+ *
+ * @author M.Nadler
+ */
 public class PenaltyCalculator {
 
     private final Car car;

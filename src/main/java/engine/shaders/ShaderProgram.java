@@ -17,7 +17,10 @@ import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 
-/** Abstract shader class. Has the functions to actually load values into the shader. */
+/** Abstract shader class. Has the functions to actually load values into the shader.
+ *
+ * @author M.Nadler
+ * */
 public abstract class ShaderProgram {
 
   public static final Logger logger = LoggerFactory.getLogger(ShaderProgram.class);

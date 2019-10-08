@@ -4,6 +4,11 @@ import engine.textures.TerrainTexture;
 import engine.textures.TerrainTexturePack;
 import sim.Sim;
 
+/**
+ * Generate and hold info for terrains.
+ *
+ * @author M.Nadler
+ */
 public class TerrainMaster {
 
     private static TerrainTexturePack texturePack;

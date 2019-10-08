@@ -10,6 +10,12 @@ import sim.Sim;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_R;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_1;
 
+/**
+ * First person camera or perspective camera.
+ * Drag with the left mouse to specify a viewport. Only the active viewpoint will be recorded.
+ *
+ * @author M.Nadler
+ */
 public class FirstPerson extends Camera {
 
     private Viewport viewport = new Viewport();

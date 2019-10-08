@@ -15,11 +15,12 @@ import static org.lwjgl.glfw.GLFW.*;
 /**
  * Keystates, CursorPos, -Movement, Mousestates, Raycasting.
  *
- * <p>Fully static class since there is only one input to listen to. Is truly global and can be used
- * everywhere.
+ * <p>Fully static class since there is only one input to listen to. Can be used anywhere.
  *
- * <p>Has the following functionalities: * Keyboard: - KeyDown: Detects if a key is held down -
- * KeyPressed: Detects if a key is pressed and was not pressed last frame
+ * <p>Has the following functionalities:
+ * Keyboard:
+ * - KeyDown: Detects if a key is held down
+ * - KeyPressed: Detects if a key is pressed and was not pressed last frame
  *
  * <p>Mouse: - Button Down: Detects if a button is held down - Button Pressed: Detects if a button
  * is pressed and was not pressed last frame - Scrolldistance of current frame - MouseDistance
@@ -29,9 +30,9 @@ import static org.lwjgl.glfw.GLFW.*;
  * <p>RayCasting: - Current projected mouse cursor vector, updated every frame while MousePlacer is
  * true - Intersection point of the mouse vector with the Z+3 plane to place items in 2D
  *
- * @author Joe's Buddler Corp.
+ * @author Joe's Buddler Corp. / M.Nadler & V.Gsteiger
  */
-@SuppressWarnings("ALL")
+
 public class InputHandler {
   private static final int[] keyState = new int[GLFW_KEY_LAST];
   private static final boolean[] keyDown = new boolean[GLFW_KEY_LAST];
@@ -80,8 +81,6 @@ public class InputHandler {
                 inputString.append((char) codepoint);
               }
             }
-          } else {
-            return;
           }
         }
       };
@@ -128,7 +127,7 @@ public class InputHandler {
    * is active.
    *
    * @param camera the origin of the ray
-   * @author Joe's Buddler Corp. (Matthias)
+   * @author Joe's Buddler Corp. (M. Nadler)
    */
   private static void updateRaycasting(Camera camera) {
     // ViewPort is used by JOML and stores x,y,width,height of the window

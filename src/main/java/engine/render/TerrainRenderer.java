@@ -20,6 +20,8 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
  * Renders Terrains. Gets a list of terrain from the Master Renderer that is pre-processed and with
  * the general openGL settings correctly enabled. This class does the rest required to render the
  * terrain.
+ *
+ * @author M.Nadler
  */
 public class TerrainRenderer {
 

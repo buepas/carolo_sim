@@ -1,5 +1,6 @@
 package engine.io;
 
+import gui.Viewport;
 import org.joml.Vector2i;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -14,6 +15,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Read the openGL screen buffer, crop it to the current Viewport and save it to the hard disk.
+ * Reading the buffer is done on the main thread since we need to access openGL, converting the buffer
+ * to an Image and saving it is done in a different thread.
+ *
+ * The Viewport is static and can be adjusted from anywhere; usually from {@link Viewport#updateBars()}.
+ *
+ * @author M.Nadler
+ */
 public class Screenshot implements Runnable {
 
     private String path;

@@ -11,6 +11,12 @@ import sim.Sim;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+/**
+ * A simulated car that can be controlled with WASD.
+ * Car specific settings are hardcoded into this class.
+ *
+ * @author M.Nadler
+ */
 public class Car extends Entity {
 
     private static TexturedModel carModel;

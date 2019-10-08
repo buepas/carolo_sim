@@ -27,6 +27,8 @@ import static org.lwjgl.opengl.GL30.*;
  * from the File System. This is done in the TextureLoader class - Font Map (created with Hierro or
  * a similar tool) - Regular Terrain and Entity Textures Sets some options for textures such as Lod
  * Bias (lower rendering quality with distance)
+ *
+ * @author M.Nadler
  */
 public class Loader {
 

@@ -6,6 +6,13 @@ import entities.Car;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_1;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_2;
 
+/**
+ * 3rd Person camera that will follow the car at an angle and rotate with it.
+ * Left mouse to control the pitch (angle towards car) and right mouse to control the yaw (angle around car).
+ * Scroll up and down to control the distance of the camera from the car.
+ *
+ * @author M.Nadler
+ */
 public class Follow extends Camera {
 
     private float distanceFromCar;

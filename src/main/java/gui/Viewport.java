@@ -8,6 +8,12 @@ import sim.Sim;
 import javax.swing.text.View;
 import java.util.ArrayList;
 
+/**
+ * Will restrict the visible openGL render window by adding black bars on the 4 sides.
+ * Can be used to crop the viewable area to cut out horizon and car hood for example.
+ *
+ * @author M.Nadler
+ */
 public class Viewport {
 
     private Vector2f topLeft = new Vector2f();

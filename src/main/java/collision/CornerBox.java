@@ -6,6 +6,8 @@ import org.joml.Vector3f;
 /**
  * A 2D (X-Z) box that moves and rotates with an object.
  * Has 4 corner points and a center that can be queried at any time to do collision calculations.
+ *
+ * @author M.Nadler
  */
 public class CornerBox {
 

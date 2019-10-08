@@ -12,6 +12,8 @@ import static sim.Sim.Stage.PLAYING;
  * The Abstract Camera Class to derive different views.
  * Will always follow a car and define at least position, pitch and yaw.
  * Those variables are needed to calculate the View Matrix for the renderer.
+ *
+ * @author M.Nadler
  */
 public abstract class Camera {
 

@@ -13,6 +13,8 @@ package engine.textures;
  * sets the normal to vec3(0 .0, 1.0, 0.0).
  *
  * <p>Class just has basic setters and getters to change how the texture behaves under light.
+ *
+ * @author M.Nadler
  */
 @SuppressWarnings("unused") // We will use them later. TODO: Include transparency and reflectivity
 public class ModelTexture {

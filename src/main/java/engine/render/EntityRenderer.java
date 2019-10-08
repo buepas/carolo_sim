@@ -19,6 +19,8 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
  *
  * <p>Gets a list of entities from the Master renderer that is pre-processed and with the general
  * openGL settings correctly enabled. This class does the rest required to render the entities.
+ *
+ * @author M.Nadler
  */
 public class EntityRenderer {
 

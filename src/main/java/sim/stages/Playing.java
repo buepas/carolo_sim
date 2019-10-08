@@ -7,7 +7,9 @@ import sim.Sim;
 
 /**
  * MAIN GAME LOOP specification and rendering. Contains and manages the Game Loop while the player
- * is playing the game. All the rendering and updating is done here.
+ * is playing the sim. All the rendering and updating is done here.
+ *
+ * @author M.Nadler
  */
 public class Playing {
 
@@ -19,7 +21,7 @@ public class Playing {
    */
   public static void update(MasterRenderer renderer) {
 
-    // Update positions of carm camera, and light
+    // Update positions of car, camera, and light
     Sim.getCar().update();
     Sim.getActiveCamera().update();
     LightMaster.update(Sim.getCar());

@@ -18,9 +18,10 @@ import static org.lwjgl.system.MemoryUtil.memFree;
 import static util.IoUtil.ioResourceToByteBuffer;
 
 /**
- * Set up the GLFW Game Window.
+ * Set up the GLFW Game Window and create openGL capabilities.
+ * Apply basic openGL settings and link the {@link InputHandler}.
  *
- * <p>Controls
+ * @author M.Nadler
  */
 public class RenderWindow {
   public static final Logger logger = LoggerFactory.getLogger(RenderWindow.class);
@@ -54,7 +55,7 @@ public class RenderWindow {
     // Set openGL version to 4.00 core
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-//    glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+    // glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -92,7 +93,7 @@ public class RenderWindow {
       glfwShowWindow(window);
     }
 
-//    setIcon("logo32");
+    // setIcon("logo32");
   }
 
   /**

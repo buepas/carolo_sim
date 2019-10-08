@@ -5,6 +5,7 @@ import engine.textures.ModelTexture;
 /**
  * Contains a raw model and a texture. See these classes for more details.
  *
+ * @author M.Nadler
  * @see RawModel
  * @see ModelTexture
  */

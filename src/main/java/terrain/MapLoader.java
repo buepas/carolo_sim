@@ -12,6 +12,11 @@ import java.awt.image.DataBufferByte;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Load a map from a png file and set up functions to check for colors at specific locations.
+ *
+ * @author M.Nadler
+ */
 public class MapLoader {
 
     private BufferedImage mapImg;
@@ -127,10 +132,10 @@ public class MapLoader {
         jFrame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        MapLoader mapLoader = new MapLoader("red");
-        mapLoader.showImage(400);
-    }
+//    public static void main(String[] args) {
+//        MapLoader mapLoader = new MapLoader("red");
+//        mapLoader.showImage(400);
+//    }
 
     public int getWidth() {
         return width;

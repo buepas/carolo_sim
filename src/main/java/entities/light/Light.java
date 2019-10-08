@@ -4,9 +4,9 @@ import entities.Entity;
 import org.joml.Vector3f;
 
 /**
- * Simple Light Object with position and colour. Used in the shaders to calculate color of objects
+ * Simple Light Object with position and colour. Used in the shaders to calculate color (and brightness) of objects.
  *
- * <p>We will expand on this if time permits!
+ * @author M.Nadler
  */
 public class Light {
   private final LightMaster.LightTypes type;

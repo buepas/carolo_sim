@@ -7,7 +7,11 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-/** Math functions to create Transformation Matrices and the barryCentric. */
+/**
+ * Math functions to create Transformation Matrices.
+ *
+ * @author M.Nadler
+ */
 public class Maths {
 
   /**

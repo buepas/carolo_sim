@@ -9,7 +9,10 @@ import util.Maths;
 
 import java.util.List;
 
-/** Shader program for terrain. Just passing some variables to the shader */
+/** Shader program for terrain. Just passing some variables to the shader.
+ *
+ * @author M.Nadler
+ * */
 @SuppressWarnings("Duplicates")
 public class TerrainShader extends ShaderProgram {
 

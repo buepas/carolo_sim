@@ -23,8 +23,9 @@ import static org.lwjgl.opengl.GL11.*;
  * colour
  *
  * <p>Collects items to render, starts/stops shaders, loads some variables to shaders and passes
- * priority to - Entity renderer - Terrain renderer TODO: Include control flow for Gui and Particle
- * renderers here
+ * priority to - Entity renderer - Terrain renderer
+ *
+ * @author M.Nadler
  */
 public class MasterRenderer {
 
